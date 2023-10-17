@@ -1,10 +1,10 @@
 package org.example;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.ArrayList;
 import java.util.Scanner;
-import org.example.Database;
+
 public class UserInterface {
 
     public static void run() {
@@ -39,26 +39,24 @@ public class UserInterface {
                     break;
                 }
             }
-
         }
-
     }
 
     private static int options(Scanner scanner) {
         System.out.print("""
-                -----OPTIONS MENU-----\s
-                (1) List cars.
-                (2) Add a new car.
-                (3) Update car.
-                (4) Remove car.
-                (0) Exit.
-                > Enter option: """);
+            -----OPTIONS MENU-----\s
+            (1) List cars.
+            (2) Add a new car.
+            (3) Update car.
+            (4) Remove car.
+            (0) Exit.
+            > Enter option: """);
         return scanner.nextInt();
     }
 
     private static void listCarsOptions() {
         System.out.println("_____LIST OF CARS_____");
-        ArrayList<Car> cars = Database.listCars();
+        ArrayList<Car> cars = Database.getCars();
         for (Car car : cars) {
             System.out.println("id: "+car.getId()+
                     "\tmake: "+car.getMake()+
@@ -80,8 +78,9 @@ public class UserInterface {
         return Database.addCar(newCar);
     }
 
-    private static boolean updateCarOptions(Scanner scanner) {
+    private static void updateCarOptions(Scanner scanner) {
         System.out.println("_____UPDATE CAR_____");
+        printCars();
         System.out.print("> Enter id: ");
         int id = scanner.nextInt();
         boolean running = true;
@@ -101,21 +100,21 @@ public class UserInterface {
                     System.out.print("Enter new make: ");
                     String newMake = scanner.next();
                     car.setMake(newMake);
-                    Database.updateCar(car);
+                    updateCar(car);
                     break;
                 }
                 case 2: {
                     System.out.print("Enter new model: ");
                     String newModel = scanner.next();
                     car.setModel(newModel);
-                    Database.updateCar(car);
+                    updateCar(car);
                     break;
                 }
                 case 3: {
                     System.out.print("Enter new year: ");
                     int newYear = scanner.nextInt();
                     car.setYear(newYear);
-                    Database.updateCar(car);
+                    updateCar(car);
                     break;
                 }
                 default: {
@@ -124,8 +123,15 @@ public class UserInterface {
                 }
             }
         }
+    }
 
-        return true;
+    private static void updateCar(Car car) {
+        boolean res = Database.updateCar(car);
+        if (res) {
+            System.out.println("Success");
+        } else {
+            System.out.println("Fail");
+        }
     }
 
     private static void deleteCarOptions(Scanner scanner) {
@@ -143,7 +149,7 @@ public class UserInterface {
     }
 
     private static void printCars() {
-        ArrayList<Car> cars = Database.listCars();
+        ArrayList<Car> cars = Database.getCars();
         for (Car car : cars) {
             System.out.println("id: "+car.getId()+
                     "\tmake: "+car.getMake()+

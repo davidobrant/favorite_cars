@@ -41,7 +41,7 @@ public class Database {
         }
     }
 
-    public static ArrayList<Car> listCars() {
+    public static ArrayList<Car> getCars() {
         ArrayList<Car> listOfCars = new ArrayList<>();
         String sql = "SELECT * FROM cars";
         try {
