@@ -55,8 +55,8 @@ public class Car {
     @Override
     public String toString() {
         return "\nid: " + id +
-                "\tyear: " + year +
                 "\tmake: " + make +
-                "\tmodel: " + model ;
+                "\tmodel: " + model +
+                "\tyear: " + year;
     }
 }
